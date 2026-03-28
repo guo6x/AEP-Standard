@@ -3,7 +3,7 @@
 
 [![Status: Draft](https://img.shields.io/badge/Status-Draft-orange.svg)]()
 [![Hardware: ESP32-S3](https://img.shields.io/badge/Reference_Hardware-ESP32--S3-blue.svg)]()
-[![Ecosystem: Omni-Context](https://img.shields.io/badge/Ecosystem-Omni--Context-success.svg)]()
+[![Ecosystem: OpenClaw](https://img.shields.io/badge/Ecosystem-OpenClaw-success.svg)]()
 
 ## 🚨 The Broken Reality：为什么现在的 IoT 是“伪智能”？
 
