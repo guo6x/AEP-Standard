@@ -32,6 +32,14 @@ AEP 将整个系统剥离为极其纯粹的两层：
 
 *(目前，我们已基于 Node.js Agent 架构与 ESP32-S3 成功跑通第一版 HTTP API 规范草案，实现了基于自然语言推理的桌面光环境重构。)*
 
+## 🚀 Quick Start & Documentation (极速上手)
+
+AEP 的核心引擎与规范白皮书现已开源发布！让单片机接入大模型只需 3 行核心代码：
+
+- 📄 **阅读宪法级协议规范**：👉 [AEP_Specification_v0.1.md](./docs/AEP_Specification_v0.1.md)
+- 🛠️ **获取核心物理引擎 SDK**：👉 [aep_core.py](./src/aep_core.py)
+- 💡 **查看 ESP32 实战点灯 Demo**：👉 [examples/esp32_basic/main.py](./examples/esp32_basic/main.py)
+
 ## 🤝 Call to Contributors & Hardware Partners (招募与合作)
 
 AEP 目前处于早期的协议起草与 MVP 验证阶段。改变物理世界的交互标准，需要极客先驱们的共同努力。我们正在寻找：
