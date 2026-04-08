@@ -31,6 +31,7 @@ AEP's positioning is completely different. It is an **ultra-lightweight physical
 * **Ultra-Lightweight:** 0 dependencies, abandoning MQTT and complex gateways. A single line of pure HTTP/JSON API code (even just MicroPython) enables an ESP32 to instantly join the LLM network.
 * **Zero-Trust Physical Execution:** The "Brain" (Agent) performs high-level reasoning on a local PC/Raspberry Pi. The physical node (ESP32) never participates in thinking; it is only responsible for millisecond-level passive execution.
 * **LLM Direct Call:** Directly mapped to the LLM's native Tool-Call mechanism, truly turning hardware into the AI's nerve endings.
+* **🔌 Zero-Conf (Plug & Play):** 彻底告别静态 IP 与硬编码，设备上电即被网关捕获，拔电即隐身，动态映射大模型工具。
 
 ## 🏗 Core Architecture
 
@@ -47,7 +48,7 @@ AEP strips the entire system down to two extremely pure layers:
 
 AEP's core engine and specification whitepaper are now open-source! Connecting a microcontroller to an LLM requires only 3 lines of core code:
 
-- 📄 **Read the Protocol Specification**: 👉 [AEP_Specification_v0.1.md](./docs/AEP_Specification_v0.1.md)
+- 📄 **Read the Protocol Specification**: 👉 [AEP_Specification_v0.2.md](./docs/AEP_Specification_v0.2.md)
 - 🛠️ **Get the Core Physical Engine SDK**: 👉 [aep_core.py](./src/aep_core.py)
 - 💡 **Check out ESP32 Blink Demo**: 👉 [examples/esp32_basic/main.py](./examples/esp32_basic/main.py)
 
