@@ -45,8 +45,18 @@ def physical_light_off(params):
 try:
     connect_wifi()
     node = AEPNode(node_id="esp32_neo_01")
-    node.register_action("turn_on", physical_light_on)
-    node.register_action("turn_off", physical_light_off)
+
+    # 注册带 Schema 的动作，供网关自动发现
+    turn_on_schema = {
+        "type": "object",
+        "properties": {
+            "color": { "type": "string" },
+            "brightness": { "type": "integer" }
+        }
+    }
+    node.register_action("turn_on", physical_light_on, schema=turn_on_schema)
+    node.register_action("turn_off", physical_light_off) # 使用默认空 schema
+
     node.listen()
 except KeyboardInterrupt:
     print("\n[System] Exited.")

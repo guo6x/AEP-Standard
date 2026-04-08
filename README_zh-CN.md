@@ -31,6 +31,7 @@ AEP 的定位截然不同。它是一套专为 Sub-$2（十几块钱以内）极
 * **Ultra-Lightweight (极度轻量)：** 0 依赖，抛弃 MQTT 和复杂的网关。一行纯净的 HTTP/JSON API 代码（甚至只需 MicroPython），就能让 ESP32 瞬间接入大模型网络。
 * **Zero-Trust Physical Execution (零信任物理执行)：** 大脑（Agent）在本地电脑/树莓派进行高阶推理，物理节点（ESP32）绝不参与思考，只负责毫秒级的被动执行。
 * **LLM Direct Call (大模型直连)：** 直接映射为大模型原生的 Tool-Call 机制，让硬件真正变成 AI 的神经末梢。
+* **🔌 即插即用 (Zero-Conf):** 彻底告别静态 IP 与硬编码，设备上电即被网关捕获，拔电即隐身，动态映射大模型工具。
 
 ## 🏗 Core Architecture (核心架构设计)
 
@@ -47,7 +48,7 @@ AEP 将整个系统剥离为极其纯粹的两层：
 
 AEP 的核心引擎与规范白皮书现已开源发布！让单片机接入大模型只需 3 行核心代码：
 
-- 📄 **阅读宪法级协议规范**：👉 [AEP_Specification_v0.1.md](./docs/AEP_Specification_v0.1.md)
+- 📄 **阅读宪法级协议规范**：👉 [AEP_Specification_v0.2.md](./docs/AEP_Specification_v0.2.md)
 - 🛠️ **获取核心物理引擎 SDK**：👉 [aep_core.py](./src/aep_core.py)
 - 💡 **查看 ESP32 实战点灯 Demo**：👉 [examples/esp32_basic/main.py](./examples/esp32_basic/main.py)
 
