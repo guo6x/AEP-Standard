@@ -1,0 +1,5 @@
+- [x] 协议规范文档 `AEP_Specification_v0.2.md` 中已正确记录本地鉴权机制的设计。
+- [x] `AEPNode` 能够通过 UDP 心跳广播正确发送 `auth_required` 状态。
+- [x] `aep_core.py` 中的 HTTP 服务能够成功拦截并拒绝携带无效 Token 的请求（返回 401 状态码）。
+- [x] `aep_core.py` 中的 HTTP 服务能够成功验证并执行携带有效 Token 的请求。
+- [x] `examples/esp32_basic/main.py` 示例代码已更新，正确演示了鉴权功能的使用方法。

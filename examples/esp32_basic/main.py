@@ -44,7 +44,9 @@ def physical_light_off(params):
 # --- AEP 节点注册与启动 ---
 try:
     connect_wifi()
-    node = AEPNode(node_id="esp32_neo_01")
+    # 可以在此处传入 auth_token 开启鉴权，例如：
+    # node = AEPNode(node_id="esp32_neo_01", auth_token="my_secret_token_123")
+    node = AEPNode(node_id="esp32_neo_01", auth_token="my_secret_token_123")
 
     # 注册带 Schema 的动作，供网关自动发现
     turn_on_schema = {

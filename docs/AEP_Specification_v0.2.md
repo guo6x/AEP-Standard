@@ -11,6 +11,7 @@ AEP (Agentic Edge Protocol) 是专为大语言模型 (LLM) 直接驱动物理世
 ## 1. 动作下发协议 (Action Payload)
 **方向**: `LLM Gateway -> Edge Node`
 **格式**: `POST /` (原生 JSON 载荷)
+**鉴权**: 如果边缘节点开启了鉴权，需要在 HTTP Header 中携带 `Authorization: Bearer <token>`
 **说明**: 大模型决定干涉物理世界时，向边缘节点发送的标准指令格式。
 
 ```json
@@ -25,13 +26,14 @@ AEP (Agentic Edge Protocol) 是专为大语言模型 (LLM) 直接驱动物理世
 (注：parameters 为可选字段，供复杂机械结构如舵机角度、电机转速传参使用)
 
 ## 核心机制二：设备发现 (Zero-Conf Auto-Discovery)
-AEP v0.2 采用 UDP 广播（端口 8888）机制，边缘节点每 5 秒自动广播包含 node_id, ip_address, 以及 capabilities (JSON Schema) 的心跳包。网关端通过捕获此心跳，实现大模型 Tool 的动态热插拔，15 秒无心跳自动注销。
+AEP v0.2 采用 UDP 广播（端口 8888）机制，边缘节点每 5 秒自动广播包含 node_id, ip_address, auth_required 以及 capabilities (JSON Schema) 的心跳包。网关端通过捕获此心跳，实现大模型 Tool 的动态热插拔，15 秒无心跳自动注销。
 
 **心跳广播包示例 (UDP 8888)**:
 ```json
 {
   "node_id": "esp32_neo_01",
   "ip_address": "192.168.1.100",
+  "auth_required": true,
   "capabilities": {
     "turn_on": {
       "type": "object",
