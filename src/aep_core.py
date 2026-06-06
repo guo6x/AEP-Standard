@@ -42,15 +42,17 @@ class AEPNode:
             except Exception:
                 pass
 
+        payload = {
+            "node_id": self.node_id,
+            "ip_address": ip,
+            "capabilities": self.schema
+        }
+        packet = json.dumps(payload).encode('utf-8')
+
         while True:
-            payload = {
-                "node_id": self.node_id,
-                "ip_address": ip,
-                "capabilities": self.schema
-            }
             try:
-                udp.sendto(json.dumps(payload).encode('utf-8'), ('255.255.255.255', 8888))
-            except Exception as e:
+                udp.sendto(packet, ('255.255.255.255', 8888))
+            except Exception:
                 pass
             time.sleep(5)
 
