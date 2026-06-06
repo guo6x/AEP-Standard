@@ -19,8 +19,8 @@ try:
     np = neopixel.NeoPixel(pin, 1)
     np[0] = (0, 0, 0)
     np.write()
-except Exception:
-    pass
+except Exception as e:
+    print(f"NeoPixel initialization failed: {e}")
 
 def connect_wifi():
     wlan = network.WLAN(network.STA_IF)
