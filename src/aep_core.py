@@ -26,6 +26,26 @@ class AEPNode:
             self.schema[action_name] = {"type": "object", "properties": {}}
         print(f"[AEP Core] Capability registered: {action_name}")
 
+    def _validate(self, params, schema):
+        """Minimalistic JSON Schema validator."""
+        if schema.get("type") == "object":
+            if not isinstance(params, dict):
+                return False
+            properties = schema.get("properties", {})
+            required = schema.get("required", [])
+            for req in required:
+                if req not in params: return False
+            for key, rules in properties.items():
+                if key in params:
+                    val = params[key]
+                    t = rules.get("type")
+                    if t == "string" and not isinstance(val, str): return False
+                    if t == "integer" and (isinstance(val, bool) or not isinstance(val, int)): return False
+                    if t == "number" and (isinstance(val, bool) or not isinstance(val, (int, float))): return False
+                    if t == "boolean" and not isinstance(val, bool): return False
+                    if t == "object" and not isinstance(val, dict): return False
+        return True
+
     def _broadcast_heartbeat(self):
         udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
@@ -86,9 +106,13 @@ class AEPNode:
                                 params = payload.get("parameters", {})
 
                                 if action in self.capabilities:
-                                    print(f"[{addr[0]}] ⚡ Executing Intent: {action}")
-                                    self.capabilities[action](params)
-                                    response_data = {"status": "success", "action_executed": action}
+                                    if self._validate(params, self.schema.get(action, {})):
+                                        print(f"[{addr[0]}] ⚡ Executing Intent: {action}")
+                                        self.capabilities[action](params)
+                                        response_data = {"status": "success", "action_executed": action}
+                                    else:
+                                        print(f"⚠️ Schema Validation Failed for action: {action}")
+                                        response_data = {"status": "error", "msg": "Schema Validation Failed"}
                                 else:
                                     print(f"⚠️ Unknown action: {action}")
                             except Exception as parse_err:
