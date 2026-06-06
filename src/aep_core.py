@@ -16,6 +16,7 @@ class AEPNode:
         self.port = port
         self.capabilities = {}
         self.schema = {}
+        self._schema_dirty = True
         print(f"[AEP Core] Node '{self.node_id}' initialized.")
 
     def register_action(self, action_name, callback_func, schema=None):
@@ -24,6 +25,7 @@ class AEPNode:
             self.schema[action_name] = schema
         else:
             self.schema[action_name] = {"type": "object", "properties": {}}
+        self._schema_dirty = True
         print(f"[AEP Core] Capability registered: {action_name}")
 
     def _broadcast_heartbeat(self):
@@ -42,15 +44,21 @@ class AEPNode:
             except Exception:
                 pass
 
+        encoded_payload = b""
+
         while True:
-            payload = {
-                "node_id": self.node_id,
-                "ip_address": ip,
-                "capabilities": self.schema
-            }
+            if self._schema_dirty:
+                payload = {
+                    "node_id": self.node_id,
+                    "ip_address": ip,
+                    "capabilities": self.schema
+                }
+                encoded_payload = json.dumps(payload).encode('utf-8')
+                self._schema_dirty = False
+
             try:
-                udp.sendto(json.dumps(payload).encode('utf-8'), ('255.255.255.255', 8888))
-            except Exception as e:
+                udp.sendto(encoded_payload, ('255.255.255.255', 8888))
+            except Exception:
                 pass
             time.sleep(5)
 
