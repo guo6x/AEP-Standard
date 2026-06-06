@@ -29,8 +29,9 @@ def connect_wifi():
         wlan.connect(SSID, PASSWORD)
         while not wlan.isconnected():
             time.sleep(1)
-    print('\n[WiFi Ready] IP Address:', wlan.ifconfig()[0])
-    return wlan.ifconfig()[0]
+    ip = wlan.ifconfig()[0]
+    print('\n[WiFi Ready] IP Address:', ip)
+    return ip
 
 # --- 开发者自定义物理动作 ---
 def physical_light_on(params):
