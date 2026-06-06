@@ -33,11 +33,11 @@ def connect_wifi():
     return wlan.ifconfig()[0]
 
 # --- 开发者自定义物理动作 ---
-def physical_light_on(params):
+def physical_light_on(_params):
     np[0] = (0, 20, 0)
     np.write()
 
-def physical_light_off(params):
+def physical_light_off(_params):
     np[0] = (0, 0, 0)
     np.write()
 
