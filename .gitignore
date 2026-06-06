@@ -1,0 +1,13 @@
+# Configuration files
+config.json
+secrets.py
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
