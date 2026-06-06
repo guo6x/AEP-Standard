@@ -30,8 +30,8 @@ class AEPNode:
         udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             udp.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[AEP Core] UDP Broadcast Setup Error: {e}")
 
         ip = "127.0.0.1"
         if network is not None:
@@ -39,8 +39,8 @@ class AEPNode:
                 wlan = network.WLAN(network.STA_IF)
                 if wlan.active():
                     ip = wlan.ifconfig()[0]
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[AEP Core] WLAN Error: {e}")
 
         while True:
             payload = {
@@ -51,7 +51,7 @@ class AEPNode:
             try:
                 udp.sendto(json.dumps(payload).encode('utf-8'), ('255.255.255.255', 8888))
             except Exception as e:
-                pass
+                print(f"[AEP Core] Heartbeat Send Error: {e}")
             time.sleep(5)
 
     def listen(self):
