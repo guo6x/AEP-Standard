@@ -11,8 +11,19 @@ except ImportError:
     print("Please ensure aep_core.py is uploaded to the device.")
     sys.exit(1)
 
+# Load configuration from config.json if available
 SSID = "YOUR_WIFI_SSID"
 PASSWORD = "YOUR_WIFI_PASSWORD"
+
+try:
+    with open("config.json", "r") as f:
+        import json
+        config = json.load(f)
+        SSID = config.get("wifi_ssid", SSID)
+        PASSWORD = config.get("wifi_password", PASSWORD)
+except Exception:
+    # Fallback to hardcoded placeholders if config.json is missing or invalid
+    pass
 
 try:
     pin = machine.Pin(48, machine.Pin.OUT)
