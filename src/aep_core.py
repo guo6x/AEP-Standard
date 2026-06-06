@@ -4,9 +4,10 @@ import json
 
 class AEPNode:
     """AEP 边缘节点核心引擎。提供极简 API，带绝对超时防卡死机制。"""
-    def __init__(self, node_id, port=80):
+    def __init__(self, node_id, port=80, api_key=None):
         self.node_id = node_id
         self.port = port
+        self.api_key = api_key
         self.capabilities = {}
         print(f"[AEP Core] Node '{self.node_id}' initialized.")
 
@@ -26,7 +27,7 @@ class AEPNode:
             try:
                 cl, addr = s.accept()
                 cl.settimeout(2.0) # 绝对护城河：防止残缺连接卡死
-                
+
                 try:
                     request = cl.recv(4096).decode('utf-8', 'ignore')
                     response_data = {"status": "error", "msg": "Invalid Protocol"}
@@ -38,22 +39,27 @@ class AEPNode:
                                 payload = json.loads(body)
                                 action = payload.get("action")
                                 params = payload.get("parameters", {})
+                                provided_key = payload.get("api_key")
 
-                                if action in self.capabilities:
+                                # Authentication Check
+                                if self.api_key and provided_key != self.api_key:
+                                    print(f"[{addr[0]}] ❌ Authentication failed for action: {action}")
+                                    response_data = {"status": "error", "msg": "Unauthorized"}
+                                elif action in self.capabilities:
                                     print(f"[{addr[0]}] ⚡ Executing Intent: {action}")
-                                    self.capabilities[action](params) 
+                                    self.capabilities[action](params)
                                     response_data = {"status": "success", "action_executed": action}
                                 else:
                                     print(f"⚠️ Unknown action: {action}")
                             except Exception as parse_err:
                                 print(f"JSON Error: {parse_err}")
-                    
+
                     body_str = json.dumps(response_data)
                     response = f"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {len(body_str)}\r\nConnection: close\r\n\r\n{body_str}"
                     cl.send(response.encode('utf-8'))
-                    
+
                 except OSError:
-                    pass 
+                    pass
                 finally:
                     cl.close() # 绝对护城河：死活必关
 
